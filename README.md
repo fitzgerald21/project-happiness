@@ -1,82 +1,81 @@
 # Project Happiness
 
-A quiet daily companion for a settled mind. It's built on secular Buddhist ideas: no shoulds, noticing without judging, the middle way, and beginning again.
+One quiet place for the whole practice: sit, come back, notice the pull, be there for the people you love, and write one line a day.
 
-It's made to be used for a minute or two and then put down. There are no streaks, no notifications, and nothing to fall off of.
+It started as four separate apps. This is all of them as one:
 
-## What's inside
+| It came from | What it brought | Where it lives now |
+|---|---|---|
+| **Project Happiness** (v1) | Check-ins, intentions, present moments, the urge pause, experiments, your why | Today, Pause, Path |
+| **Come back** | Tap-to-return counting, remote buttons, the eleven scenes and their sounds, the two listening exercises, reminders, distraction tags, the sit timeline | The sit player |
+| **Lantern** (TMI) | The ten stages, guided sits with a recorded voice, drills, walking, loving-kindness, the six preparation steps | The sit player, Path |
+| **One Line a Day** | The five-year page, and the 3D book itself with dictation and summarizing | Today, Book |
 
-| Tab | What it's for |
-|---|---|
-| **Today** | A daily reminder card. A check-in (scattered ↔ settled, heavy ↔ light, one word). An intention picked from your happiness map. Logging moments of real presence with your family. Then *"I'm done here. Back to life."*: three breaths and a nudge to put the phone down. |
-| **Sit** | A meditation timer with a soft synthesized bell. A breathing circle (Calm 4/6, Box, Physiological sigh). **Hard thing** mode for before a presentation: stress reframes plus 2 minutes of calming sighs. Keeps the screen awake while it runs. |
-| **Pause** | For when you catch yourself reaching for the phone, YouTube, news, or another AI project. Name it, find what's underneath, ride the urge for 90 seconds with RAIN prompts, then pick something else or *choose it on purpose* with a time limit. You can also log one afterward without judgment. Shows patterns over 30 days. |
-| **Experiments** | "Boxes with doors." Time-boxed experiments you choose yourself (No YouTube for 7 days, phone sleeps outside the bedroom…). Daily kept / partly / not today. Missing a day resets nothing. At the end you reflect, then keep going, keep a lighter version, or let it go. |
-| **Reflect** | Insights (settledness line, minutes sat, simple "what seems to help" patterns), a nightly journal prompt, your happiness map, and your "why" (which also shows up when you pause on an urge). |
+## How it fits together
 
-Settings has your name, the people you want to be present with, theme, bell, and JSON export/import.
+Everything lands on one day.
 
-## Hosting on GitHub Pages
-
-There's no build step. It's plain HTML, CSS, and JavaScript modules.
-
-1. Merge this into `main`.
-2. In the repo, go to **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**, branch `main`, folder `/ (root)`, then **Save**.
-4. After a minute it's live at `https://<your-username>.github.io/project-happiness/`.
-5. On your phone, open that URL. Then choose **Share → Add to Home Screen** (iPhone) or **⋮ → Install app** (Android). It runs full-screen and works offline.
-
-To run it locally: `python3 -m http.server` in the repo folder, then open http://localhost:8000. ES modules don't load from `file://`.
-
-> When you change files, bump `VERSION` in `sw.js` so phones pick up the new version quickly.
+- **Today** is the day's thread under a sky that follows the real clock. Arrive (mind, heart, one word), set an intention, sit, tap who you were really there with, mark your experiments, write the line. Each part folds to a single line once it's done. In the evening the line comes forward.
+- **Sit** is one player for every kind of sitting. A guided stage sit, a drill, walking, loving-kindness, breathing with the circle, or just sitting. Whatever the practice, a tap anywhere means "I noticed, and came back." Rest on the guide figure that shows the technique, any of the scenes, or a black screen with one number. Sound can be the scene, two held voices, a hidden overtone, or silence.
+- **Pause** (the round button) is for the moment you catch yourself reaching. Name it, find what's underneath, ride it for 90 seconds, then choose. One of the choices is to sit for three minutes, which opens the same player.
+- **Path** is the long view: the ten stages with your current one marked, experiments ("boxes with doors"), and the compass (your why, what makes you happy, who you want to be there for).
+- **Book** is the one-line-a-day page for any date, a door into the full 3D book (**Open the book**), every line you've kept, and a look back that reads across all of it: does sitting, being present, or writing line up with a more settled mind?
 
 ## Your data
 
-Everything is stored in `localStorage` on the device you use. Nothing gets sent anywhere. Use **Settings → Export backup** now and then. Clearing your browser data, or using a different browser, starts you fresh.
+The app is local-first. It works signed out, and opens instantly from a copy in this browser.
 
-## Adding Firebase later
-
-The app is already set up for this. All reads and writes go through a small store (`js/store.js`) that hands state to an **adapter**:
-
-```js
-adapter.load()        // -> Promise<state | null>
-adapter.save(state)   // persist
-adapter.subscribe(cb) // optional: remote changes
-```
-
-`js/adapters/firebase.js` is a starting adapter. It keeps a local copy for offline use, signs in with Google, and mirrors the state to Firestore at `users/{uid}`. To turn it on:
-
-1. Create a project at https://console.firebase.google.com and add a **Web app**.
-2. Turn on **Authentication → Google**, and add `<your-username>.github.io` under **Authentication → Settings → Authorized domains**.
-3. Create a **Firestore** database and use these rules so each person can only reach their own document:
-   ```
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{db}/documents {
-       match /users/{uid} {
-         allow read, write: if request.auth != null && request.auth.uid == uid;
-       }
-     }
-   }
-   ```
-4. Paste your web config into `js/config.js` (replace `firebase: null`).
-5. Open **Settings → Sign in with Google**. Your existing local data uploads on the first save after sign-in.
-
-The Firebase config values aren't secrets. They're meant to be public, and the security rules above are what protect your data. The adapter hasn't been tested against a live Firebase project yet, so expect a small amount of tweaking the first time.
-
-## Project layout
+Sign in with Google (Settings) and it syncs through the **come-back-fitz21** Firebase project, using the places the other apps already use:
 
 ```
-index.html              app shell + bottom tabs
-css/styles.css          design tokens (light/dark), components
-js/app.js               router, store setup, service worker registration
-js/store.js             state shape, migrations, LocalAdapter
-js/config.js            Firebase config (null = local only)
-js/adapters/firebase.js optional cloud sync adapter
-js/lib/                 content (all the words), dates, audio bell, charts, helpers
-js/views/               today, sit, pause, experiments, reflect, settings
-sw.js                   offline cache
-manifest.webmanifest    home-screen app metadata
+users/{uid}/sessions/{start}        every sit, in Come back's format     (shared with Come back)
+users/{uid}/entries/{YYYY-MM-DD}    one line per day                     (shared with One Line a Day)
+users/{uid}                         Come back's settings: reminders, distraction list and remote buttons, shared both ways
+users/{uid}/settings/app            the book's cover, handwriting and layout     (shared with One Line a Day)
+users/{uid}/settings/ph             this app's profile, preferences, experiments
+users/{uid}/settings/ph-log-YYYY    this app's day notes: check-ins, presence, pauses (one document a year)
 ```
 
-All of the app's words (reminders, journal prompts, experiment ideas, reframes) live in `js/lib/content.js`, so you can rewrite them in your own voice.
+So a sit done here shows up in Come back, and a line written here is in the One Line a Day book, and the other way round. Nothing was moved and the other apps keep working. No Firestore rules change is needed: the two new documents sit under `settings/`, which the shared rules already allow for the owner account.
+
+The first time it opens in a browser it also picks up what the older apps left in that browser's storage (they're served from the same site): the first Project Happiness's data and Lantern's sits and stage, which never synced anywhere.
+
+## Running it
+
+There's no build step. It's plain HTML, CSS and JavaScript modules.
+
+```
+python3 -m http.server      # then open http://localhost:8000
+```
+
+To publish: GitHub Pages, **Deploy from a branch**, `main`, `/ (root)`. On a phone, open the URL and **Add to Home Screen**. Bump `VERSION` in `sw.js` when you ship changes so phones pick them up.
+
+## Layout
+
+```
+index.html, css/app.css     the shell and the design
+js/app.js                   router
+js/config.js                Firebase config
+js/data/store.js            the one data layer: in-memory state, local cache, cloud mirror
+js/data/cloud.js            Firestore reads, writes and listeners
+js/views/                   today, sit, pause, path, book, settings
+js/lib/                     day.js (a day gathered from everything), page.js (the book page), sky.js, charts, dates, content (all the words)
+js/sit/player.js            the sit: script, scene, sound, returns
+js/sit/prep.js, review.js   before and after
+js/sit/script.js, figure.js Lantern's guided-sit builder and the guide figure
+js/sit/scenes.js, ambient.js  Come back's scenes and their synthesized sounds
+js/sit/audio.js, voice.js   bells, the shared audio engine, recorded guidance
+js/content/                 the ten stages, hindrances, glossary
+js/sit/remote.js            remote and earbud buttons: which press means what
+book/                       the One Line a Day book (its own code and stylesheet); book/shell.js connects it to the store
+vendor/                     Come back's instrument engine and recordings for the listening exercises
+voice/, sounds/, previews/  recorded guidance, scene recordings, scene thumbnails
+```
+
+## Not carried over
+
+- Lantern's four interactive explainers (attention and awareness, moments of consciousness, the mind system, the obstacle map).
+- Come back's saved sound setups, colour themes, and picking a sit back up after the phone unloads the page.
+- One Line a Day's photo import still opens in that app, and deleting the whole book can only be done there.
+
+The stages follow *The Mind Illuminated* by Culadasa, Matthew Immergut and Jeremy Graves, paraphrased as a study companion.

@@ -15,9 +15,7 @@ export function putDown() {
   const circle = host.querySelector('#pd-circle');
   const label = host.querySelector('#pd-label');
   const sub = host.querySelector('#pd-sub');
-  let i = 0;
-  let breaths = 0;
-  let timer = null;
+  let i = 0, breaths = 0, timer = null;
   const step = () => {
     if (breaths >= 3) {
       label.textContent = 'Go be where your feet are.';
@@ -37,10 +35,9 @@ export function putDown() {
   };
   circle.style.transform = 'scale(0.55)';
   timer = setTimeout(step, 600);
-  const close = () => {
+  host.querySelector('#pd-close').onclick = () => {
     clearTimeout(timer);
     host.classList.remove('open');
     host.innerHTML = '';
   };
-  host.querySelector('#pd-close').onclick = close;
 }

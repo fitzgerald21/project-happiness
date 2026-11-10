@@ -127,3 +127,22 @@ export const BREATH_PATTERNS = {
     { label: 'Long breath out', secs: 6, scale: 0.55 },
   ] },
 };
+
+// What tends to help with what's underneath an urge. Several of these are the classic hindrances wearing
+// everyday clothes; the same ones show up on the cushion.
+export const UNDERNEATH_HELP = {
+  bored: { name: 'Wanting', help: "Boredom is wanting something more interesting than this. Notice the wanting itself. It passes, and a settled mind is a better pleasure than the feed." },
+  anxious: { name: 'Worry', help: 'Calm the body first. Let the out-breath get a little longer. Decide when you will deal with the thing, then let it wait until then.' },
+  avoiding: { name: 'Aversion', help: "There's something you don't want to feel. Meet it with patience. Five minutes on the hard thing usually shrinks it." },
+  tired: { name: 'Low energy', help: "Scrolling doesn't rest you. Stand up, drink some water, look out a window, or actually lie down for ten minutes." },
+  restless: { name: 'Restlessness', help: 'The body wants to move. Let it: walk, stretch, shake it out. Then see what is left of the urge.' },
+  lonely: { name: 'Wanting connection', help: 'A screen is a thin version of what you want. Text someone real, or go and sit next to someone you love.' },
+  fomo: { name: 'Doubt', help: "The feed will be there later, and almost none of it will matter by then. What's here is the part you can actually miss." },
+  autopilot: { name: 'Habit', help: "Nothing is wrong. The hand just moved by itself. You caught it, and that's the whole skill." },
+};
+
+// What to call the parts of the day.
+export function partOfDay(d = new Date()) {
+  const h = d.getHours();
+  return h < 5 ? 'night' : h < 11 ? 'morning' : h < 17 ? 'day' : h < 21 ? 'evening' : 'night';
+}

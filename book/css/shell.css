@@ -1,0 +1,3 @@
+/* Inside Project Happiness the book has no tab bar of its own, so it gets the whole screen. */
+.view { bottom: 0 !important; }
+.topbar .tab { flex-direction: row; flex: none; font-size: 14px; padding: 8px 14px 8px 8px; }

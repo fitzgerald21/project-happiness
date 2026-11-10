@@ -4,64 +4,70 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Project Happiness</title>
-  <meta name="description" content="A quiet daily companion for a settled mind.">
-  <meta name="theme-color" content="#f5f1e8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#14171a" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="One quiet place for the day: sit, come back, notice the pull, be there, and write a line.">
+  <meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#10151c" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Happiness">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&family=Kalam:wght@300;400&family=Patrick+Hand&display=swap">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="importmap">
+  { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  } }
+  </script>
   <script>
     try {
-      var t = JSON.parse(localStorage.getItem('ph:v1') || 'null');
-      t = t && t.settings && t.settings.theme;
+      var t = JSON.parse(localStorage.getItem('ph2:core') || 'null');
+      t = t && t.prefs && t.prefs.theme;
       if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
     } catch (e) {}
   </script>
 </head>
 <body>
-  <div class="app">
-    <header class="topbar">
-      <a href="#/today" class="brand"><span class="brand-mark" aria-hidden="true"></span>Project Happiness</a>
-      <a href="#/settings" class="icon-btn" aria-label="Settings">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-      </a>
-    </header>
-    <main id="view" class="view">
-      <noscript><p class="card">Project Happiness needs JavaScript turned on.</p></noscript>
-    </main>
-  </div>
+  <main id="view" class="view">
+    <noscript><p class="card">Project Happiness needs JavaScript turned on.</p></noscript>
+  </main>
 
   <nav class="tabs" aria-label="Main">
     <a href="#/today" data-route="today">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M6.5 17a5.5 5.5 0 0 1 11 0M12 5v2.5M4.6 9.6l1.8 1.8M19.4 9.6l-1.8 1.8"/></svg>
       <span>Today</span>
     </a>
     <a href="#/sit" data-route="sit">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="6.5" r="2.5"/><path d="M12 9.5c-3 0-4.5 2.5-4.5 5.5M12 9.5c3 0 4.5 2.5 4.5 5.5M4.5 18.5c2-2.5 13-2.5 15 0"/></svg>
       <span>Sit</span>
     </a>
-    <a href="#/pause" data-route="pause">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0M2 15c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"/></svg>
+    <a href="#/pause" data-route="pause" class="tab-pause" aria-label="Pause: caught yourself reaching?">
+      <span class="pause-fab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9.5c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0M2 15c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"/></svg></span>
       <span>Pause</span>
     </a>
-    <a href="#/experiments" data-route="experiments">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
-      <span>Experiments</span>
+    <a href="#/path" data-route="path">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20c0-4 3-4 3-7s-3-3-3-6 3-4 6-4M19 20c0-3-3-4-3-7s3-4 0-7"/></svg>
+      <span>Path</span>
     </a>
-    <a href="#/reflect" data-route="reflect">
+    <a href="#/book" data-route="book">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>
-      <span>Reflect</span>
+      <span>Book</span>
     </a>
   </nav>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <div id="overlay" class="overlay"></div>
+  <div id="stage" class="stage" hidden></div>
 
+  <script src="vendor/samples/manifest.js"></script>
+  <script src="vendor/instruments.js"></script>
+  <script src="vendor/tones.js"></script>
+  <script>if (window.Lab) Lab.sampleBase = 'vendor/samples/';</script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
